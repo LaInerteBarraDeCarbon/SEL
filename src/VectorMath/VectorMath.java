@@ -8,11 +8,21 @@ import Excepciones.DistDimException;
 
 public class VectorMath {
 
-	private int[] valores;
 	Integer dimension;
+	private int[] valores = new int[1000];
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		
+		/*VectorMath vector1 = new VectorMath(5);
+		VectorMath vector2 = new VectorMath(5);
+		
+		vector1.seteaOrdenado();
+		vector2.seteaOrdenado();
+		
+		vector1.sumaVectorVector(vector2);
+		
+		vector1.imprimeVector();*/
 
 	}
 
@@ -31,8 +41,8 @@ public class VectorMath {
 		}
 	}
 
-	public VectorMath() {
-		this.dimension = 0;
+	public VectorMath(int dim) {
+		this.dimension = dim;
 		for (int i = 0; i < this.dimension; i++)
 			this.valores[i] = 0;
 	}
@@ -41,6 +51,16 @@ public class VectorMath {
 		this.dimension = vector.dimension;
 		for (int i = 0; i < this.dimension; i++)
 			this.valores[i] = vector.valores[i];
+	}
+	
+	public void seteaOrdenado(){
+		for(int i = 0; i <= this.dimension; i++)
+			this.valores[i] = i+1;
+	}
+	
+	public void imprimeVector(){
+		for(int i = 0; i < this.dimension; i++)
+			System.out.println(this.valores[i]);
 	}
 
 	public void sumaVectorVector(VectorMath vector) throws DistDimException {
