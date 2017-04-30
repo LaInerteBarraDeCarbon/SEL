@@ -7,84 +7,188 @@ import VectorMath.VectorMath;
 
 public class MatrizMath {
 
-	private Integer dimension;
-	private int[][] valores;
+	private int filas;
+	private int columnas;
+	private double[][] matriz;
 
 	public static void main(String[] args) {
 
-		MatrizMath mat1 = new MatrizMath(3);
-		MatrizMath mat2 = new MatrizMath(3);
+		MatrizMath mat1 = new MatrizMath(3, 3);
+		MatrizMath mat2 = new MatrizMath(3, 3);
 
-		int[][] matrix = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
+		double[][] matrix = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
 
-		mat1.valores = matrix;
+		mat1.matriz = matrix;
 
 		int k = 1;
-		for (int i = 0; i < mat1.dimension; i++) {
-			for (int j = 0; j < mat1.dimension; j++) {
-				mat1.valores[i][j] = k;
-				mat2.valores[i][j] = k;
+		for (int i = 0; i < mat1.filas; i++) {
+			for (int j = 0; j < mat1.columnas; j++) {
+				mat1.matriz[i][j] = k;
+				mat2.matriz[i][j] = k;
 				k++;
 			}
 		}
 
 		mat1.productoMatrizMatriz(mat2);
+		
 	}
 
-	public MatrizMath(int dim) {
-		this.dimension = dim;
-		for (int i = 0; i < dim; i++)
-			for (int j = 0; j < dim; j++) {
-				this.valores[i][j] = 0;
-			}
+	public MatrizMath(int fil, int col) {
+		this.filas = fil;
+		this.columnas = col;
+
+		this.matriz = new double[fil][col];
+
+		for (int i = 0; i < filas; i++)
+			for (int j = 0; j < columnas; j++)
+				matriz[i][j] = 0;
 	}
 
-	public MatrizMath(MatrizMath mat) {
-		this.dimension = mat.dimension;
-		for (int i = 0; i < this.dimension; i++) {
-			for (int j = 0; j < this.dimension; j++) {
-				this.valores[i][j] = mat.valores[i][j];
-			}
-		}
+	public MatrizMath(int fil, int col, double[][] mat) {
+		this.filas = fil;
+		this.columnas = col;
+
+		this.matriz = new double[fil][col];
+
+		for (int i = 0; i < filas; i++)
+			for (int j = 0; j < columnas; j++)
+				matriz[i][j] = mat[i][j];
 	}
 
+	public MatrizMath() {
+		filas = 0;
+		columnas = 0;
+		matriz = null;
+	}
+
+	public void setValor(int i, int j, double valor)
+	{
+		matriz[i][j]=valor;
+	}
+	
+	public double getValor(int i, int j)
+	{
+		return matriz[i][j];
+	}
+	
+	public int getFilas() {
+		return filas;
+	}
+
+	public void setFilas(int filas) {
+		this.filas = filas;
+	}
+
+	public int getColumnas() {
+		return columnas;
+	}
+
+	public void setColumnas(int columnas) {
+		this.columnas = columnas;
+	}
+
+	public double[][] getMatriz() {
+		return matriz;
+	}
+
+	public void setMatriz(double[][] matriz) {
+		this.matriz = matriz;
+	}
+	
+	public boolean EsCuadrada() {
+		return this.filas == this.columnas;
+	}
+
+	// Suma de una Matriz con otra Matriz de igual dimension.
 	public void sumarMatriz(MatrizMath mat) throws DistDimException {
-		if (!this.dimension.equals(mat.dimension))
+		if (this.filas != mat.filas || this.columnas != mat.columnas)
 			throw new DistDimException("Distinta Dimension");
 
-		for (int i = 0; i < this.dimension; i++)
-			for (int j = 0; j < this.dimension; j++)
-				this.valores[i][j] += mat.valores[i][j];
+		for (int i = 0; i < this.filas; i++)
+			for (int j = 0; j < this.columnas; j++)
+				this.matriz[i][j] += mat.matriz[i][j];
 	}
-
+	
+	// Resta de una matriz por otra de igual dimension.
 	public void restarMatriz(MatrizMath mat) throws DistDimException {
-		if (!this.dimension.equals(mat.dimension))
+		if (this.filas != mat.filas || this.columnas != mat.columnas)
 			throw new DistDimException("Distinta Dimension");
 
-		for (int i = 0; i < this.dimension; i++)
-			for (int j = 0; j < this.dimension; j++)
-				this.valores[i][j] -= mat.valores[i][j];
+		for (int i = 0; i < this.filas; i++)
+			for (int j = 0; j < this.columnas; j++)
+				this.matriz[i][j] -= mat.matriz[i][j];
 	}
 
+	// Producto de una matriz por otra de igual dimension.
 	public MatrizMath productoMatrizMatriz(MatrizMath mat) throws DistDimException {
-		if (!this.dimension.equals(mat.dimension))
+		if (this.filas != mat.filas || this.columnas != mat.columnas)
 			throw new DistDimException("Distinta Dimension");
 
-		int suma = 0;
-		MatrizMath resultado = new MatrizMath(this.dimension);
-		for (int h = 0; h < this.dimension; h++) {
-			for (int i = 0; i < this.dimension; i++) {
-				int k = 0;
-				for (int j = 0; j < mat.dimension; j++) {
-					suma += this.valores[k][j] * mat.valores[j][k];
-					k++;
-				}
-				resultado.valores[h][this.dimension - (this.dimension - i)] = suma;
-			}
+		MatrizMath resultado = new MatrizMath(this.filas, mat.columnas);
 
-		}
+		for (int f = 0; f < this.filas; f++)
+			for (int c = 0; c < this.columnas; c++)
+				resultado.matriz[f][0] += matriz[f][c] * mat.matriz[c][0];
+
 		return resultado;
 	}
+	
+	// Producto de una Matriz por un Vector.
+
+
+	// Producto de una matriz por un Float.
+	public MatrizMath productoMatrizFloat(double valor) {
+MatrizMath resultado = new MatrizMath(this.filas, this.columnas);
+		
+		for(int f=0; f<this.filas; f++)
+			for(int c=0; c<this.columnas; c++)
+				resultado.setValor(f, c, this.matriz[f][c] * valor);
+		
+		return resultado;
+	}
+	
+	//maxima suma entre columnas
+		public double NormaUno(){
+			double resultado = 0.0, aux = 0.0;
+			
+			for(int c=0; c<columnas; c++){
+				for(int f=0; f<filas; f++)
+					aux += Math.abs(matriz[f][c]);
+				
+				if(aux > resultado)
+					resultado = aux;
+				
+				aux = 0.0;
+			}
+			
+			return resultado;
+		}
+		
+		//norma frobenius
+		public double NormaDos(){
+			double resultado = 0.0;
+			
+			for(int f=0; f<filas; f++)
+				for(int c=0; c<columnas; c++)
+					resultado += Math.pow(matriz[f][c], 2.0);
+			
+			return Math.sqrt(resultado);
+		}
+		
+		//maxima suma entre filas
+		public double NormaInfinito(){
+			double resultado = 0.0, aux = 0.0;
+			
+			for(int f=0; f<this.filas; f++){
+				for(int c=0; c<this.columnas; c++)
+					aux += Math.abs(this.matriz[f][c]);
+				if(aux > resultado)
+					resultado = aux;
+				aux = 0.0;
+			}
+			
+			return resultado;
+		}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -94,11 +198,16 @@ public class MatrizMath {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		MatrizMath other = (MatrizMath) obj;
-		if (dimension != other.dimension)
+		
+		MatrizMath aux = (MatrizMath)obj;
+		if(this.filas != aux.filas || this.columnas != aux.columnas) 
 			return false;
-		if (!Arrays.deepEquals(valores, other.valores))
-			return false;
+		
+		for(int f=0; f<filas; f++)
+			for(int c=0; c<columnas; c++)
+				if(matriz[f][c] != aux.matriz[f][c])	
+					return false;
+		
 		return true;
 	}
 
