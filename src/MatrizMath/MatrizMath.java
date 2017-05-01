@@ -198,9 +198,10 @@ public class MatrizMath {
 		double auxiliar;
 		VectorMath aux = new VectorMath(this.filas);
 		for (int i = 0; i < this.filas; i++) {
-			auxiliar = 0;
-			for (int j = 0; j < this.columnas; j++)
+			auxiliar = 0.0;
+			for (int j = 0; j < this.columnas; j++) {
 				auxiliar += this.matriz[i][j] * vec.getValor(j);
+			}
 			aux.setValor(i, auxiliar);
 		}
 		return aux;

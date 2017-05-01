@@ -122,6 +122,7 @@ public class SEL {
 		if (this.matriz.determinante() == 0.0) {
 			this.inversible = false;
 		} else {
+
 			aux = matriz.matrizInversa(this.matriz.getFilas());
 			this.inversible = true;
 			this.resultado = aux.productoMatrizVector(this.vector);
@@ -140,7 +141,7 @@ public class SEL {
 	 *            Vector. <br>
 	 */
 	public void calcularErrorSolucion(VectorMath resultadoPrima) {
-		VectorMath aux = resultado.clone();
+		VectorMath aux = this.resultado.clone();
 		aux.restaVectorVector(resultadoPrima);
 		this.error = aux.norma();
 	}

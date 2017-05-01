@@ -75,12 +75,12 @@ public class VectorMath {
 	 * 
 	 * @param vector
 	 *            Vector a restar. <br>
+	 * @return
 	 * @throws DistDimException
 	 */
 	public void restaVectorVector(VectorMath vector) throws DistDimException {
 		if (!this.dimension.equals(vector.dimension))
 			throw new DistDimException("Distinta Dimension");
-
 		for (int i = 0; i < this.dimension; i++)
 			this.valores[i] -= vector.valores[i];
 	}
@@ -123,12 +123,12 @@ public class VectorMath {
 	 * 
 	 * @return Norma de un vector. <br>
 	 */
-	public int norma() {
-		int suma = 0;
+	public double norma() {
+		double suma = 0;
 		for (int i = 0; i < this.dimension; i++) {
 			suma += Math.pow(this.valores[i], 2);
 		}
-		return (int) Math.sqrt(suma);
+		return Math.sqrt(suma);
 	}
 
 	public boolean equals(VectorMath vector) {
@@ -165,7 +165,7 @@ public class VectorMath {
 	 * @return Valor. <br>
 	 */
 	public double getValor(int posicion) {
-		return valores[posicion];
+		return this.valores[posicion];
 	}
 
 	/**
