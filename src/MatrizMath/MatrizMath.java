@@ -15,13 +15,10 @@ public class MatrizMath {
 
 		double[][] matrix = { { 1, 5, 3 }, { 4, 5, 5 }, { 2, 8, 12 } };
 		MatrizMath mat1 = new MatrizMath(3, 3, matrix);
-
-		System.out.println(mat1.toString());
-		System.out.println(mat1.determinante());
 	}
 
 	/**
-	 * Crea una matriz vac韆. <br>
+	 * Crea una matriz vac铆a. <br>
 	 * 
 	 * @param fil
 	 *            Cantidad de filas. <br>
@@ -40,16 +37,17 @@ public class MatrizMath {
 	}
 
 	/**
-	 * Crea una matriz vac韆 de orden n. <br>
+	 * Crea una matriz vac铆a de orden n. <br>
 	 * 
 	 * @param orden
 	 *            Orden de la matriz. <br>
 	 */
 	public MatrizMath(int orden) {
 		this.filas = this.columnas = orden;
-		for (int i = 0; i < filas; i++)
-			for (int j = 0; j < columnas; j++)
-				matriz[i][j] = 0;
+		this.matriz = new double[this.filas][this.columnas];
+		for (int i = 0; i < this.filas; i++)
+			for (int j = 0; j < this.columnas; j++)
+				this.matriz[i][j] = 0;
 	}
 
 	/**
@@ -74,7 +72,7 @@ public class MatrizMath {
 	}
 
 	/**
-	 * Crea una matriz vac韆, sin filas ni columnas. <br>
+	 * Crea una matriz vac铆a, sin filas ni columnas. <br>
 	 */
 	public MatrizMath() {
 		filas = 0;
@@ -83,12 +81,12 @@ public class MatrizMath {
 	}
 
 	/**
-	 * Guarda un valor en la posici髇 dada. <br>
+	 * Guarda un valor en la posici贸n dada. <br>
 	 * 
 	 * @param i
-	 *            Posici髇 fila. <br>
+	 *            Posici贸n fila. <br>
 	 * @param j
-	 *            Posici髇 columna. <br>
+	 *            Posici贸n columna. <br>
 	 * @param valor
 	 *            Valor a guardar. <br>
 	 */
@@ -97,12 +95,12 @@ public class MatrizMath {
 	}
 
 	/**
-	 * Devuelve el valor en la posici髇 pedida. <br>
+	 * Devuelve el valor en la posici贸n pedida. <br>
 	 * 
 	 * @param i
-	 *            Posici髇 fila. <br>
+	 *            Posici贸n fila. <br>
 	 * @param j
-	 *            Posici髇 columna. <br>
+	 *            Posici贸n columna. <br>
 	 * @return Valor. <br>
 	 */
 	public double getValor(int i, int j) {
@@ -318,7 +316,7 @@ public class MatrizMath {
 	 */
 	public void convertirIdentidad(int orden) {
 		for (int i = 0; i < orden; i++) {
-			this.matriz[i][i] = 1;
+			this.matriz[i][i] = 1.0;
 		}
 	}
 
@@ -327,38 +325,71 @@ public class MatrizMath {
 	 * 
 	 * @param orden
 	 *            Orden de la matriz. <br>
+	 * 
+	 * @return Matriz inversa. <br>
 	 */
-	public void matrizInversa(int orden) {
-		MatrizMath identidad = new MatrizMath();
-		identidad.convertirIdentidad(orden);
+	public MatrizMath matrizInversa(int orden) {
+		int i = 0, j = 0, k = 0;
+		int matDim = (int) this.columnas;
+		double num;
+		MatrizMath aux = new MatrizMath(this.filas, this.columnas, this.matriz);
+		MatrizMath inversa = new MatrizMath(this.columnas);
+		inversa.convertirIdentidad(orden);
 
-		for (int i = 0; i < orden; i++) {
-			for (int j = 0; j < orden; j++) {
-				if (this.getValor(i, i) != 0) {
-					identidad.matriz[i][j] /= this.matriz[i][i];
-					this.matriz[i][j] /= matriz[i][i];
-				} else {
-					identidad.matriz[i][j] += 1;
-					this.matriz[i][j] += 1;
+		for (k = 0; k < matDim; k++) {
+			if (aux.getValor(k, k) == 0) { // transforma los ceros de la
+											// diagonal principal
+				i = k;
+				while (aux.getValor(i, k) == 0 && i < matDim - k) // busco en
+																	// las
+																	// otras
+																	// filas
+					i++;
+				for (j = 0; j < matDim; j++) {
+					aux.setValor(k, j, aux.getValor(k, j) + aux.getValor(i, j));
+					inversa.setValor(k, j, inversa.getValor(k, j) + inversa.getValor(i, j));
 				}
 			}
-			if (i < orden) {
-				for (int k = i + 1; k < orden; k++) {
-					for (int j = 0; j < orden; j++) {
-						identidad.matriz[k][j] -= this.matriz[i + 1][i] * this.matriz[i][j];
-						this.matriz[k][j] -= this.matriz[i + 1][i] * this.matriz[i][j];
-					}
+
+			num = aux.getValor(k, k);
+
+			for (j = 0; j < matDim; j++) { // divido la fila por el inverso del
+											// diagonal para hacerlo 1
+				aux.setValor(k, j, aux.getValor(k, j) * (1 / num));
+				inversa.setValor(k, j, inversa.getValor(k, j) * (1 / num));
+			}
+
+			for (i = k + 1; i < matDim; i++) { // transformo en cero
+				num = aux.getValor(i, k);
+				for (j = 0; j < matDim; j++) {
+					aux.setValor(i, j, aux.getValor(i, j) - num * aux.getValor(k, j));
+					inversa.setValor(i, j, inversa.getValor(i, j) - num * inversa.getValor(k, j));
 				}
 			}
-		}
+		} // ya se obtuvo la triangular inferior como la identidad
 
-		for (int i = orden - 1; i >= 1; i--) {
-			for (int j = orden - 1; j >= 0; j++) {
-				identidad.matriz[i - 1][j] -= this.matriz[i - 1][i] * this.matriz[i][j];
-				this.matriz[i - 1][j] -= this.matriz[i - 1][i] * this.matriz[i][j];
+		for (k = 0; k < matDim - 1; k++) // ahora me encargo de la triangular
+											// superior
+			for (i = 1; i < matDim - k; i++) {
+				num = aux.getValor(k, k + i);
+				for (j = 0; j < matDim; j++) {
+					aux.setValor(k, j, aux.getValor(k, j) - num * aux.getValor(k + i, j));
+					inversa.setValor(k, j, inversa.getValor(k, j) - num * inversa.getValor(k + i, j));
+				}
+			}
+
+		return inversa;
+	}
+
+	/**
+	 * Muestra el contenido de la matriz. <br>
+	 */
+	public void mostarMatriz() {
+		for (int i = 0; i < this.filas; i++) {
+			for (int j = 0; j < this.columnas; j++) {
+				System.out.println("Fila " + (i + 1) + "\tColumna " + (j + 1) + "\t" + this.matriz[i][j]);
 			}
 		}
-		this.matriz = identidad.matriz;
 	}
 
 	public double determinante()throws NoCuadradaException {
