@@ -1,5 +1,9 @@
 package MatrizMath;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 import Excepciones.DistDimException;
 
 public class MatrizMath {
@@ -11,6 +15,7 @@ public class MatrizMath {
 	public static void main(String[] args) {
 		MatrizMath mat1 = new MatrizMath(3, 3);
 		MatrizMath mat2 = new MatrizMath(3, 3);
+		MatrizMath matR = new MatrizMath(3);
 
 		double[][] matrix = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
 		double[][] matris = { { 1, 2, }, { 4, 5 } };
@@ -26,15 +31,14 @@ public class MatrizMath {
 			}
 		}
 
-		mat1.productoMatrizMatriz(mat2);
+		System.out.println("Matriz 1");
+		mat1.mostarMatriz();
+		System.out.println("Matriz 2");
+		mat2.mostarMatriz();
+		matR = mat1.productoMatrizMatriz(mat2);
+		System.out.println("Matriz Resultado");
+		matR.mostarMatriz();
 
-		MatrizMath mat5 = new MatrizMath(2);
-		MatrizMath mat6 = new MatrizMath(2);
-		mat5.matriz = matris;
-
-		mat6 = mat5.matrizInversa(mat5.getColumnas());
-		mat5.mostarMatriz();
-		mat6.mostarMatriz();
 	}
 
 	/**
@@ -223,15 +227,18 @@ public class MatrizMath {
 	 */
 	// Producto de una matriz por otra de igual dimension.
 	public MatrizMath productoMatrizMatriz(MatrizMath mat) throws DistDimException {
-		if (this.filas != mat.filas || this.columnas != mat.columnas)
+		if (this.columnas != mat.filas)
 			throw new DistDimException("Distinta Dimension");
 
 		MatrizMath resultado = new MatrizMath(this.filas, mat.columnas);
 
-		for (int f = 0; f < this.filas; f++)
-			for (int c = 0; c < this.columnas; c++)
-				resultado.matriz[f][0] += matriz[f][c] * mat.matriz[c][0];
-
+		for (int f = 0; f < this.filas; f++) {
+			for (int c = 0; c < this.columnas; c++) {
+				for (int fico = 0; fico < this.columnas; fico++) {
+					resultado.matriz[f][c] += this.matriz[f][fico] * mat.matriz[fico][c];
+				}
+			}
+		}
 		return resultado;
 	}
 
@@ -394,5 +401,35 @@ public class MatrizMath {
 				System.out.println("Fila " + (i + 1) + "\tColumna " + (j + 1) + "\t" + this.matriz[i][j]);
 			}
 		}
+	}
+
+	/**
+	 * Lee una matriz desde un archivo. <br>
+	 * 
+	 * @param path
+	 *            Dirección del archivo. <br>
+	 */
+	public void leerArchivoMatriz(String path) {
+		Scanner sc = null;
+		try {
+			sc = new Scanner(new File(path));
+
+			this.filas = sc.nextInt();
+			this.columnas = sc.nextInt();
+
+			this.matriz = new double[(int) this.filas][(int) this.columnas];
+
+			for (int i = 0; i < this.filas; i++) {
+				for (int j = 0; j < this.columnas; j++) {
+					this.matriz[sc.nextInt()][sc.nextInt()] = sc.nextDouble();
+				}
+			}
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			sc.close();
+		}
+		sc.close();
 	}
 }
