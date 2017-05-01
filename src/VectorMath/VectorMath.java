@@ -1,51 +1,11 @@
 package VectorMath;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
-
 import Excepciones.DistDimException;
 
 public class VectorMath {
 
 	Integer dimension;
-	private int[] valores = new int[1000];
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-		/*
-		 * VectorMath vector1 = new VectorMath(5); VectorMath vector2 = new
-		 * VectorMath(5);
-		 * 
-		 * vector1.seteaOrdenado(); vector2.seteaOrdenado();
-		 * 
-		 * vector1.sumaVectorVector(vector2);
-		 * 
-		 * vector1.imprimeVector();
-		 */
-
-	}
-
-	/**
-	 * Carga un vector a partir de un archivo. <br>
-	 * 
-	 * @param ruta
-	 *            Dirección del archivo. <br>
-	 */
-	public VectorMath(String ruta) {
-		Scanner sc;
-		try {
-			sc = new Scanner(new File(ruta));
-			this.dimension = sc.nextInt();
-			for (int i = 0; i < this.dimension; i++)
-				this.valores[i] = sc.nextInt();
-
-			sc.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
+	private double[] valores = new double[1000];
 
 	/**
 	 * Carga un vector con una dimensión dada. <br>
@@ -71,9 +31,18 @@ public class VectorMath {
 			this.valores[i] = vector.valores[i];
 	}
 
-	public void seteaOrdenado() {
-		for (int i = 0; i <= this.dimension; i++)
-			this.valores[i] = i + 1;
+	/**
+	 * Carga un vector con su dimensión y valores. <br>
+	 * 
+	 * @param dimension
+	 *            Dimensión del vector. <br>
+	 * @param valores
+	 *            Valores del vector. <br>
+	 */
+	public VectorMath(Integer dimension, double[] valores) {
+		this.dimension = dimension;
+		for (int i = 0; i < this.dimension; i++)
+			this.valores[i] = valores[i];
 	}
 
 	/**
@@ -152,9 +121,9 @@ public class VectorMath {
 	/**
 	 * Realiza la norma de un vector. <br>
 	 * 
-	 * @return Norma del vector. <br>
+	 * @return Norma de un vector. <br>
 	 */
-	public int normaVector() {
+	public int norma() {
 		int suma = 0;
 		for (int i = 0; i < this.dimension; i++) {
 			suma += Math.pow(this.valores[i], 2);
@@ -177,5 +146,46 @@ public class VectorMath {
 	public VectorMath clone() {
 		VectorMath vector = new VectorMath(this);
 		return vector;
+	}
+
+	/**
+	 * Devuelve la dimensión del vector. <br>
+	 * 
+	 * @return Dimensión. <br>
+	 */
+	public Integer getDimension() {
+		return dimension;
+	}
+
+	/**
+	 * Devuelve el valor de una posición. <br>
+	 * 
+	 * @param posicion
+	 *            Posicion del valor. <br>
+	 * @return Valor. <br>
+	 */
+	public double getValor(int posicion) {
+		return valores[posicion];
+	}
+
+	/**
+	 * Guarda un valor en una posición. <br>
+	 * 
+	 * @param posicion
+	 *            Posición a guardar. <br>
+	 * @param valor
+	 *            Valor a guardar. <br>
+	 */
+	public void setValor(int posicion, double valor) {
+		this.valores[posicion] = valor;
+	}
+
+	/**
+	 * Devuelve el vector. <br>
+	 * 
+	 * @return Vector. <br>
+	 */
+	public double[] getValores() {
+		return valores;
 	}
 }
