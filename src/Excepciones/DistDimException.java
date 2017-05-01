@@ -1,15 +1,20 @@
 package Excepciones;
 
-public class DistDimException extends ArithmeticException
-{
-    /**
+/**
+ * Excpeción relacionada al tema de dimensiones distintas de elementos. <br>
+ */
+public class DistDimException extends ArithmeticException {
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public DistDimException(String mensaje)
-    {
-        super(mensaje);
-    }
+	/**
+	 * Muestra el mensaje de la expeción. <br>
+	 * 
+	 * @param mensaje
+	 */
+	public DistDimException(String mensaje) {
+		super(mensaje);
+	}
 }
-
