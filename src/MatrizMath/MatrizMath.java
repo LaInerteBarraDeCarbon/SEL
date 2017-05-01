@@ -1,6 +1,7 @@
 package MatrizMath;
 
 import Excepciones.DistDimException;
+import Excepciones.NoCuadradaException;
 
 public class MatrizMath {
 
@@ -9,36 +10,15 @@ public class MatrizMath {
 	private double[][] matriz;
 
 	public static void main(String[] args) {
-		MatrizMath mat1 = new MatrizMath(3, 3);
+
 		MatrizMath mat2 = new MatrizMath(3, 3);
 
-		double[][] matrix = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
-		double[][] matris = { { 1, 2, }, { 4, 5 } };
-
-		mat1.matriz = matrix;
-
-		int k = 1;
-		for (int i = 0; i < mat1.filas; i++) {
-			for (int j = 0; j < mat1.columnas; j++) {
-				mat1.matriz[i][j] = k;
-				mat2.matriz[i][j] = k;
-				k++;
-			}
-		}
-
-		mat1.productoMatrizMatriz(mat2);
-
-		MatrizMath mat5 = new MatrizMath(2);
-		MatrizMath mat6 = new MatrizMath(2);
-		mat5.matriz = matris;
-
-		mat6 = mat5.matrizInversa(mat5.getColumnas());
-		mat5.mostarMatriz();
-		mat6.mostarMatriz();
+		double[][] matrix = { { 1, 5, 3 }, { 4, 5, 5 }, { 2, 8, 12 } };
+		MatrizMath mat1 = new MatrizMath(3, 3, matrix);
 	}
 
 	/**
-	 * Crea una matriz vac韆. <br>
+	 * Crea una matriz vac铆a. <br>
 	 * 
 	 * @param fil
 	 *            Cantidad de filas. <br>
@@ -57,7 +37,7 @@ public class MatrizMath {
 	}
 
 	/**
-	 * Crea una matriz vac韆 de orden n. <br>
+	 * Crea una matriz vac铆a de orden n. <br>
 	 * 
 	 * @param orden
 	 *            Orden de la matriz. <br>
@@ -92,7 +72,7 @@ public class MatrizMath {
 	}
 
 	/**
-	 * Crea una matriz vac韆, sin filas ni columnas. <br>
+	 * Crea una matriz vac铆a, sin filas ni columnas. <br>
 	 */
 	public MatrizMath() {
 		filas = 0;
@@ -101,12 +81,12 @@ public class MatrizMath {
 	}
 
 	/**
-	 * Guarda un valor en la posici髇 dada. <br>
+	 * Guarda un valor en la posici贸n dada. <br>
 	 * 
 	 * @param i
-	 *            Posici髇 fila. <br>
+	 *            Posici贸n fila. <br>
 	 * @param j
-	 *            Posici髇 columna. <br>
+	 *            Posici贸n columna. <br>
 	 * @param valor
 	 *            Valor a guardar. <br>
 	 */
@@ -115,12 +95,12 @@ public class MatrizMath {
 	}
 
 	/**
-	 * Devuelve el valor en la posici髇 pedida. <br>
+	 * Devuelve el valor en la posici贸n pedida. <br>
 	 * 
 	 * @param i
-	 *            Posici髇 fila. <br>
+	 *            Posici贸n fila. <br>
 	 * @param j
-	 *            Posici髇 columna. <br>
+	 *            Posici贸n columna. <br>
 	 * @return Valor. <br>
 	 */
 	public double getValor(int i, int j) {
@@ -312,6 +292,22 @@ public class MatrizMath {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		for (int i = 0; i < this.filas; i++) {
+			for (int j = 0; j < this.columnas; j++) {
+				System.out.printf("%.2f\t", matriz[i][j]);
+			}
+			System.out.println("");
+		}
+		return "";
+	}
+
+	@Override
+	public MatrizMath clone() {
+		return new MatrizMath(this.filas, this.columnas, this.matriz);
+	}
+
 	/**
 	 * Transforma una matriz de orden n en una matriz identidad. <br>
 	 * 
@@ -395,4 +391,37 @@ public class MatrizMath {
 			}
 		}
 	}
+
+	public double determinante()throws NoCuadradaException {
+		
+		if(!this.EsCuadrada())
+			throw new NoCuadradaException("La matriz no es cuadrada");
+		double det;
+		if (this.matriz.length == 2) {
+			det = (this.matriz[0][0] * this.matriz[1][1]) - (this.matriz[1][0] * this.matriz[0][1]);
+			return det;
+		}
+		double suma = 0;
+		for (int i = 0; i < this.matriz.length; i++) {
+			MatrizMath temp = new MatrizMath(this.matriz.length - 1, this.matriz.length - 1);
+			for (int j = 0; j < this.matriz.length; j++) {
+				if (j != i) {
+					for (int k = 1; k < this.matriz.length; k++) {
+						int indice = -1;
+						if (j < i)
+							indice = j;
+						else if (j > i)
+							indice = j - 1;
+						temp.matriz[indice][k - 1] = this.matriz[j][k];
+					}
+				}
+			}
+			if (i % 2 == 0)
+				suma += this.matriz[i][0] * temp.determinante();
+			else
+				suma -= this.matriz[i][0] * temp.determinante();
+		}
+		return suma;
+	}
+
 }
