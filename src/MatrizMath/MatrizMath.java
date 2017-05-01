@@ -8,6 +8,7 @@ import Excepciones.DistDimException;
 import Excepciones.NoCuadradaException;
 import VectorMath.VectorMath;
 
+
 public class MatrizMath {
 
 	private int filas;
@@ -15,7 +16,7 @@ public class MatrizMath {
 	private double[][] matriz;
 
 	/**
-	 * Crea una matriz vac韆. <br>
+	 * Crea una matriz vac铆a. <br>
 	 * 
 	 * @param fil
 	 *            Cantidad de filas. <br>
@@ -34,7 +35,7 @@ public class MatrizMath {
 	}
 
 	/**
-	 * Crea una matriz vac韆 de orden n. <br>
+	 * Crea una matriz vac铆a de orden n. <br>
 	 * 
 	 * @param orden
 	 *            Orden de la matriz. <br>
@@ -69,12 +70,12 @@ public class MatrizMath {
 	}
 
 	/**
-	 * Guarda un valor en la posici髇 dada. <br>
+	 * Guarda un valor en la posici贸n dada. <br>
 	 * 
 	 * @param i
-	 *            Posici髇 fila. <br>
+	 *            Posici贸n fila. <br>
 	 * @param j
-	 *            Posici髇 columna. <br>
+	 *            Posici贸n columna. <br>
 	 * @param valor
 	 *            Valor a guardar. <br>
 	 */
@@ -83,12 +84,12 @@ public class MatrizMath {
 	}
 
 	/**
-	 * Devuelve el valor en la posici髇 pedida. <br>
+	 * Devuelve el valor en la posici贸n pedida. <br>
 	 * 
 	 * @param i
-	 *            Posici髇 fila. <br>
+	 *            Posici贸n fila. <br>
 	 * @param j
-	 *            Posici髇 columna. <br>
+	 *            Posici贸n columna. <br>
 	 * @return Valor. <br>
 	 */
 	public double getValor(int i, int j) {
@@ -184,7 +185,7 @@ public class MatrizMath {
 
 	/**
 	 * Multiplica una matriz por un vector. Si el vector posee distinta
-	 * dimensi髇 con respecto a la dimensi髇 de la columna de la matriz, no la
+	 * dimensi贸n con respecto a la dimensi贸n de la columna de la matriz, no la
 	 * multiplica. <br>
 	 * 
 	 * @param vec
@@ -194,7 +195,7 @@ public class MatrizMath {
 	 */
 	public VectorMath productoMatrizVector(VectorMath vec) throws DistDimException {
 		if (this.columnas != vec.getDimension())
-			throw new DistDimException("Distinta dimensi髇.");
+			throw new DistDimException("Distinta dimensi贸n.");
 		double auxiliar;
 		VectorMath aux = new VectorMath(this.filas);
 		for (int i = 0; i < this.filas; i++) {
@@ -381,7 +382,7 @@ public class MatrizMath {
 	 * Lee una matriz desde un archivo. <br>
 	 * 
 	 * @param path
-	 *            Direcci髇 del archivo. <br>
+	 *            Direcci贸n del archivo. <br>
 	 */
 	public void leerArchivoMatriz(String path) {
 		Scanner sc = null;
@@ -416,6 +417,7 @@ public class MatrizMath {
 	 */
 	public double determinante() throws NoCuadradaException {
 		if (this.columnas != this.filas)
+
 			throw new NoCuadradaException("La matriz no es cuadrada");
 		double det;
 		if (this.matriz.length == 2) {
