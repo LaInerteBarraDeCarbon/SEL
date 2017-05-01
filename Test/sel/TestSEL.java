@@ -13,7 +13,7 @@ public class TestSEL {
 
 	static String PathSELIn = "Preparacion de Prueba/Lote de Prueba/Entrada/";
 	static String PathSELOut = "Preparacion de Prueba/Lote de Prueba/Salida/";
-	double errorGenerado = (double) 1 / 10;
+	double errorGenerado = (double) 1 / 100000;
 
 	@Test
 	public void pruebaSolucionCasoSimple() {
