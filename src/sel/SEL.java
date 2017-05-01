@@ -9,9 +9,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
 
-import MatrizMath.MatrizMath;
-import VectorMath.VectorMath;
-
 public class SEL {
 
 	private MatrizMath matriz;
@@ -110,7 +107,6 @@ public class SEL {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		archivoSalida.close();
 	}
 
@@ -122,8 +118,7 @@ public class SEL {
 		if (this.matriz.determinante() == 0.0) {
 			this.inversible = false;
 		} else {
-
-			aux = matriz.matrizInversa(this.matriz.getFilas());
+			aux = matriz.matrizInversa();
 			this.inversible = true;
 			this.resultado = aux.productoMatrizVector(this.vector);
 			VectorMath resultadoPrima = new VectorMath(resultado.getDimension(), resultado.getValores());
