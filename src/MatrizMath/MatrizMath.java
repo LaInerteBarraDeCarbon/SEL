@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import Excepciones.DistDimException;
+import Excepciones.NoCuadradaException;
 
 public class MatrizMath {
 
@@ -432,4 +433,42 @@ public class MatrizMath {
 		}
 		sc.close();
 	}
+	/**
+	 * Calcula el determinante de una matriz cuadrada.
+	 * 
+	 * @return
+	 * @throws NoCuadradaException
+	 */
+	public double determinante() throws NoCuadradaException {
+
+		if (!this.EsCuadrada())
+			throw new NoCuadradaException("La matriz no es cuadrada");
+		double det;
+		if (this.matriz.length == 2) {
+			det = (this.matriz[0][0] * this.matriz[1][1]) - (this.matriz[1][0] * this.matriz[0][1]);
+			return det;
+		}
+		double suma = 0;
+		for (int i = 0; i < this.matriz.length; i++) {
+			MatrizMath temp = new MatrizMath(this.matriz.length - 1, this.matriz.length - 1);
+			for (int j = 0; j < this.matriz.length; j++) {
+				if (j != i) {
+					for (int k = 1; k < this.matriz.length; k++) {
+						int indice = -1;
+						if (j < i)
+							indice = j;
+						else if (j > i)
+							indice = j - 1;
+						temp.matriz[indice][k - 1] = this.matriz[j][k];
+					}
+				}
+			}
+			if (i % 2 == 0)
+				suma += this.matriz[i][0] * temp.determinante();
+			else
+				suma -= this.matriz[i][0] * temp.determinante();
+		}
+		return suma;
+	}
+
 }
