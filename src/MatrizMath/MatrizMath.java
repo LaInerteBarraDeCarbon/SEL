@@ -235,7 +235,7 @@ public class MatrizMath {
 		for (int f = 0; f < this.filas; f++) {
 			for (int c = 0; c < this.columnas; c++) {
 				for (int fico = 0; fico < this.columnas; fico++) {
-					resultado.matriz[f][c] += this.matriz[f][fico] * mat.matriz[fico][c];
+					resultado.matriz[f][c] += this.matriz[f][fico] * mat.matriz[f][c];
 				}
 			}
 		}
