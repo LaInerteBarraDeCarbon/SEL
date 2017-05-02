@@ -168,9 +168,7 @@ public class MatrizMath {
 	public MatrizMath productoMatrizMatriz(MatrizMath mat) throws DistDimException {
 		if (this.columnas != mat.filas)
 			throw new DistDimException("Distinta Dimension");
-
 		MatrizMath resultado = new MatrizMath(this.filas, mat.columnas);
-
 		for (int f = 0; f < this.filas; f++) {
 			for (int c = 0; c < this.columnas; c++) {
 				for (int fico = 0; fico < this.columnas; fico++) {
@@ -215,11 +213,9 @@ public class MatrizMath {
 	 */
 	public MatrizMath productoMatrizFloat(double valor) {
 		MatrizMath resultado = new MatrizMath(this.filas, this.columnas);
-
 		for (int f = 0; f < this.filas; f++)
 			for (int c = 0; c < this.columnas; c++)
 				resultado.setValor(f, c, this.matriz[f][c] * valor);
-
 		return resultado;
 	}
 
@@ -228,20 +224,15 @@ public class MatrizMath {
 	 * 
 	 * @return Norma uno. <br>
 	 */
-	// maxima suma entre columnas
 	public double NormaUno() {
 		double resultado = 0.0, aux = 0.0;
-
 		for (int c = 0; c < columnas; c++) {
 			for (int f = 0; f < filas; f++)
 				aux += Math.abs(matriz[f][c]);
-
 			if (aux > resultado)
 				resultado = aux;
-
 			aux = 0.0;
 		}
-
 		return resultado;
 	}
 
@@ -250,14 +241,11 @@ public class MatrizMath {
 	 * 
 	 * @return Norma dos. <br>
 	 */
-	// norma frobenius
 	public double NormaDos() {
 		double resultado = 0.0;
-
 		for (int f = 0; f < filas; f++)
 			for (int c = 0; c < columnas; c++)
 				resultado += Math.pow(matriz[f][c], 2.0);
-
 		return Math.sqrt(resultado);
 	}
 
@@ -266,10 +254,8 @@ public class MatrizMath {
 	 * 
 	 * @return Norma infinito. <br>
 	 */
-	// maxima suma entre filas
 	public double NormaInfinito() {
 		double resultado = 0.0, aux = 0.0;
-
 		for (int f = 0; f < this.filas; f++) {
 			for (int c = 0; c < this.columnas; c++)
 				aux += Math.abs(this.matriz[f][c]);
@@ -277,7 +263,6 @@ public class MatrizMath {
 				resultado = aux;
 			aux = 0.0;
 		}
-
 		return resultado;
 	}
 
@@ -313,11 +298,9 @@ public class MatrizMath {
 		double num;
 		MatrizMath aux = new MatrizMath(this.filas, this.columnas, this.matriz);
 		MatrizMath inversa = new MatrizMath(this.columnas);
-
 		for (int s = 0; s < matDim; s++) {
 			inversa.setValor(s, s, 1.0);
 		}
-
 		for (k = 0; k < matDim; k++) {
 			if (aux.getValor(k, k) == 0) {
 				i = k;
@@ -329,14 +312,11 @@ public class MatrizMath {
 					inversa.setValor(k, j, inversa.getValor(k, j) + inversa.getValor(i, j));
 				}
 			}
-
 			num = aux.getValor(k, k);
-
 			for (j = 0; j < matDim; j++) {
 				aux.setValor(k, j, aux.getValor(k, j) * (1 / num));
 				inversa.setValor(k, j, inversa.getValor(k, j) * (1 / num));
 			}
-
 			for (i = k + 1; i < matDim; i++) {
 				num = aux.getValor(i, k);
 				for (j = 0; j < matDim; j++) {
@@ -345,7 +325,6 @@ public class MatrizMath {
 				}
 			}
 		}
-
 		for (k = 0; k < matDim - 1; k++) {
 			for (i = 1; i < matDim - k; i++) {
 				num = aux.getValor(k, k + i);
@@ -410,30 +389,22 @@ public class MatrizMath {
 		VectorMath vec;
 		MatrizMath mat;
 		double resultado = 0, escalar;
-
 		if (this.filas != this.columnas)
 			throw new NoCuadradaException("Distinta dimensión");
-
 		if (this.filas == 1)
 			return this.matriz[0][0];
-
 		if (this.filas == 2)
 			return (this.matriz[0][0] * this.matriz[1][1]) - (this.matriz[0][1] * this.matriz[1][0]);
-
 		if (this.filas == 0)
 			return resultado;
-
 		vec = new VectorMath(this.filas);
 		mat = new MatrizMath(this.filas, this.columnas, this.matriz);
-
 		for (int it = 0; it < mat.filas - 1; it++) {
 			for (int col = 0; col < this.columnas; col++)
 				vec.setValor(col, mat.matriz[(int) it][(int) col]);
-
 			for (int i = it + 1; i < this.filas; i++) {
 				if (vec.getValor(it) != 0) {
 					escalar = mat.matriz[(int) i][(int) it] / vec.getValor(it);
-
 					for (int j = 0; j < this.columnas; j++)
 						mat.matriz[(int) i][(int) j] -= escalar * vec.getValor(j);
 				} else {
@@ -445,14 +416,12 @@ public class MatrizMath {
 				}
 			}
 		}
-
 		for (int x = 0; x < this.filas; x++) {
 			if (x == 0)
 				resultado = mat.matriz[x][x];
 			else
 				resultado *= mat.matriz[x][x];
 		}
-
 		return resultado;
 	}
 }

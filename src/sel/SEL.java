@@ -45,21 +45,16 @@ public class SEL {
 		FileReader fr;
 		BufferedReader bfInput = null;
 		int dim = 0, pos = 0;
-
 		try {
 			fr = new FileReader(new File(path));
 			bfInput = new BufferedReader(fr);
-
 			linea = bfInput.readLine();
-
 			if (linea != null) {
 				dim = Integer.parseInt(linea);
 				this.matriz = new MatrizMath(dim, dim);
 				this.vector = new VectorMath(dim);
-
 				linea = bfInput.readLine();
 			}
-
 			while (linea != null && pos < (dim * dim)) {
 				String[] datos = linea.split(" ");
 				this.matriz.setValor(Integer.parseInt(datos[0]), Integer.parseInt(datos[1]),
@@ -67,12 +62,10 @@ public class SEL {
 				pos++;
 				linea = bfInput.readLine();
 			}
-
 			for (int i = 0; i < dim; i++) {
 				this.vector.setValor(i, Double.parseDouble(linea));
 				linea = bfInput.readLine();
 			}
-
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} finally {

@@ -64,7 +64,6 @@ public class VectorMath {
 	public void sumaVectorVector(VectorMath vector) throws DistDimException {
 		if (!this.dimension.equals(vector.dimension))
 			throw new DistDimException("Distinta Dimension");
-
 		for (int i = 0; i < this.dimension; i++)
 			this.valores[i] += vector.valores[i];
 	}
@@ -139,7 +138,7 @@ public class VectorMath {
 				return false;
 		return true;
 	}
-
+	
 	/**
 	 * Clona un vector. <br>
 	 */
