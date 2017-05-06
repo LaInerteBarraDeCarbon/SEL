@@ -105,6 +105,8 @@ public class SEL {
 
 	/**
 	 * Resuelve el sistema de ecuaciones lineales. <br>
+	 * POST-CORRECION: Para la cota de error utilizar producto de matriz A (X),
+	 * restar (B) y la norma 2. Seria E = ||B-B'||(norma 2).<br>
 	 */
 	public void resolver() {
 		MatrizMath aux = new MatrizMath(this.matriz.getFilas(), this.matriz.getColumnas());
